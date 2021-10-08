@@ -35,6 +35,8 @@ async function postForm(e) {
     if (response.ok){
         displayErrors(data);
     } else {
+        console.log(data.error);
+        displayException(data);
         throw new Error(data.error);
     }
 }
@@ -68,6 +70,7 @@ async function getStatus(e) {
     if (response.ok){
         displayStatus(data);
     } else {
+        displayException(data);
         throw new Error(data.error);
     }
 }
@@ -78,6 +81,18 @@ function displayStatus(data){
     results += `<div class="key-status">${data.expiry}</div>`;
 
     document.getElementById("resultsModalTitle").innerHTML = heading;
+    document.getElementById("results-content").innerHTML = results;
+
+    resultsModal.show();
+}
+
+function displayException(data){
+    let heading = "An Exception Occured";
+    let results = `<div>Status Code: ${data.status_code}</div>`;
+    results += `<div>Error Number: <strong>${data.error_no}</strong></div>`;
+    results += `<div>Error Message: <strong>${data.error}</strong></div>`;
+
+    document.getElementById("resultsModalTitle").innerText = heading;
     document.getElementById("results-content").innerHTML = results;
 
     resultsModal.show();
